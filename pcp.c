@@ -9,7 +9,7 @@ int full = 0;
   
 // Number of empty slots as size
 // of buffer
-int empty = 10, x = 0;
+int empty = 0, x = 0;
   
 // Function to produce an item and
 // add it to the buffer
@@ -28,7 +28,7 @@ void producer()
   
     // Item produced
     x++;
-    printf("\nProducer produces"
+    printf("\nProducer produces "
            "item %d",
            x);
   
@@ -62,11 +62,14 @@ void consumer()
 // Driver Code
 int main()
 {
-    int n, i;
+    int n, i, buffer;
+    printf("Enter size of buffer:\t");
+    scanf("%d", &buffer);
+    empty = buffer;
     printf("\n1. Press 1 for Producer"
            "\n2. Press 2 for Consumer"
            "\n3. Press 3 for Exit");
-  
+
 // Using '#pragma omp parallel for'
 // can  give wrong value due to
 // synchronisation issues.
@@ -79,7 +82,7 @@ int main()
   
     for (i = 1; i > 0; i++) {
   
-        printf("\nEnter your choice:");
+        printf("\nEnter your choice:\t");
         scanf("%d", &n);
   
         // Switch Cases
