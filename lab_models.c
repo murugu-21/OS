@@ -27,7 +27,7 @@ void insertion_sort(int* pid, int* bt, int* at, int n){
 
 void fcfs(int* pid, int* bt, int* at, int n){
     int i, wt[n], time = at[0];
-    printf("Gantt chart\n");
+    printf("\nGantt chart\n");
     printf("%d ", at[0]);
     for (i = 0; i < n; i++)
     {
