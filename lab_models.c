@@ -70,5 +70,8 @@ int main(){
     }
     insertion_sort(pid, bt, at, n);
     fcfs(pid, bt, at, n);
+    free(pid);
+    free(bt);
+    free(at);
     return 0;
 }
