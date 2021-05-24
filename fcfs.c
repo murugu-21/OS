@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// Function to find the waiting time for all
-// processes
+
 void swap(void* a, void* b, size_t s){
     void* tmp = malloc(s);
     memcpy(tmp, a, s);
@@ -60,14 +59,14 @@ void findavgTime(char *processes[], int n, int bt[], int at[])
     }
     printf("\n");
         // Display processes along with all details
-        printf("Processes\tBurst Time\tArrival Time\tWaiting Time\tTurn-Around Time\tCompletion Time");
+        printf("Processes\tBurst Time\tArrival Time\tWaiting Time\tTurn-Around Time Completion Time");
     int total_wt = 0, total_tat = 0;
     for (int i = 0 ; i < n ; i++)
     {
         total_wt = total_wt + wt[i];
         total_tat = total_tat + tat[i];
         int compl_time = tat[i] + at[i];
-        printf("\n%s\t\t%d\t\t%d\t\t%d\t\t%d\t\t\t%d",processes[i],bt[i],at[i],wt[i],tat[
+        printf("\n%s\t\t%d\t\t%d\t\t%d\t\t%d\t\t  %d",processes[i],bt[i],at[i],wt[i],tat[
         i],compl_time);
     }
     printf("\nAverage Waiting Time = %.2f",(float)(total_wt)/n);
@@ -79,8 +78,8 @@ void findavgTime(char *processes[], int n, int bt[], int at[])
 int main()
 {
     // Process id's
-    int i, j, min_idx, n, *burst_time, *arrival_time;
-    char **processes;
+    int i, j, key, temp_burst, n, *burst_time, *arrival_time;
+    char **processes, *temp_proc;
     freopen("fcfs.in", "r", stdin);
     //printf("\nEnter no of processes: ");
     scanf("%d", &n);
@@ -98,19 +97,25 @@ int main()
         scanf("%d", arrival_time + i);
     }
 
-    //selection sort by arrival time
-    for (i = 0; i < n-1; i++) 
-    { 
-        // Find the minimum element in unsorted array 
-        min_idx = i; 
-        for (j = i+1; j < n; j++) 
-            if (arrival_time[j] < arrival_time[min_idx]) 
-                min_idx = j; 
-  
-        // Swap the found minimum element with the first element 
-        swap(&arrival_time[min_idx], &arrival_time[i], sizeof(arrival_time[i]));
-        swap(&burst_time[min_idx], &burst_time[i], sizeof(burst_time[i]));
-        swap(&processes[min_idx], &processes[i], sizeof(processes[i]));
+    //insertion sort by arrival time
+    for (i = 1; i < n; i++) {
+        key = arrival_time[i];
+        temp_burst = burst_time[i];
+        temp_proc = processes[i];
+        j = i - 1;
+ 
+        /* Move elements of arr[0..i-1], that are
+          greater than key, to one position ahead
+          of their current position */
+        while (j >= 0 && arrival_time[j] > key) {
+            arrival_time[j + 1] = arrival_time[j];
+            burst_time[j + 1] = burst_time[j];
+            processes[j + 1] = processes[j];
+            j = j - 1;
+        }
+        arrival_time[j + 1] = key;
+        burst_time[j + 1] = temp_burst;
+        processes[j + 1] = temp_proc;
     }
     //int n = sizeof processes / sizeof processes[0];
     //freopen("fcfs.out", "w", stdout);
